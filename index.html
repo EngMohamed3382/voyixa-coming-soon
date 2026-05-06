@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voyixa.net — Coming Soon</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --sky-top: #c8dff5;
+    --sky-mid: #ddeeff;
+    --white:   #ffffff;
+    --navy:    #0B1E6B;
+    --cyan:    #00BFDF;
+    --cyan2:   #1A9FC0;
+    --gold:    #C9A84C;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(
+      180deg,
+      var(--sky-top) 0%,
+      var(--sky-mid) 35%,
+      #eef6ff 65%,
+      var(--white) 100%
+    );
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  /* ── Subtle cloud wisps ── */
+  body::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 18% at 20% 22%, rgba(255,255,255,0.55) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 14% at 75% 35%, rgba(255,255,255,0.40) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 10% at 50% 55%, rgba(255,255,255,0.25) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* ── Floating particles ── */
+  .particles {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .p {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0;
+    animation: floatUp var(--dur) ease-in-out var(--delay) infinite;
+  }
+  @keyframes floatUp {
+    0%   { transform: translateY(0) scale(1);   opacity: 0; }
+    20%  { opacity: var(--op); }
+    80%  { opacity: var(--op); }
+    100% { transform: translateY(-120vh) scale(0.4); opacity: 0; }
+  }
+
+  /* ── Plane path ── */
+  .plane-wrap {
+    position: absolute;
+    top: 12%;
+    left: -80px;
+    animation: flyAcross 14s linear infinite;
+    opacity: 0.18;
+  }
+  .plane-wrap svg { width: 52px; filter: drop-shadow(0 2px 6px rgba(11,30,107,.3)); }
+  @keyframes flyAcross {
+    0%   { left: -80px;  top: 12%; }
+    50%  { top: 7%; }
+    100% { left: 110%;  top: 12%; }
+  }
+
+  /* ── Main card ── */
+  .card {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 0 24px;
+    animation: fadeIn 1.4s ease both;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Logo ── */
+  .logo-wrap {
+    margin-bottom: 10px;
+    animation: fadeIn 1.4s ease 0.2s both;
+  }
+  .logo-wrap img {
+    width: clamp(260px, 42vw, 520px);
+    filter: drop-shadow(0 8px 32px rgba(11,30,107,0.18));
+    transition: transform 0.4s ease;
+  }
+  .logo-wrap img:hover { transform: scale(1.03); }
+
+  /* ── Divider ── */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    justify-content: center;
+    margin: 6px auto 28px;
+    animation: fadeIn 1.4s ease 0.5s both;
+  }
+  .divider-line {
+    height: 1px;
+    width: 80px;
+    background: linear-gradient(90deg, transparent, var(--cyan2), transparent);
+  }
+  .divider-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: 0 0 8px var(--cyan);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1);   opacity: 1; }
+    50%       { transform: scale(1.6); opacity: 0.5; }
+  }
+
+  /* ── Coming Soon text ── */
+  .coming-soon {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(2.6rem, 7vw, 5.2rem);
+    letter-spacing: 0.28em;
+    color: var(--navy);
+    line-height: 1;
+    animation: fadeIn 1.4s ease 0.7s both;
+    position: relative;
+    display: inline-block;
+  }
+  .coming-soon::after {
+    content: '';
+    display: block;
+    height: 2px;
+    margin: 10px auto 0;
+    width: 0;
+    background: linear-gradient(90deg, var(--cyan), var(--navy));
+    animation: expandLine 1.2s ease 1.8s forwards;
+  }
+  @keyframes expandLine {
+    to { width: 100%; }
+  }
+
+  /* ── Dots ── */
+  .dots {
+    display: inline-flex;
+    gap: 4px;
+    margin-left: 2px;
+    vertical-align: middle;
+  }
+  .dots span {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--cyan);
+    display: inline-block;
+    animation: dotBounce 1.4s ease-in-out infinite;
+  }
+  .dots span:nth-child(2) { animation-delay: 0.2s; background: var(--cyan2); }
+  .dots span:nth-child(3) { animation-delay: 0.4s; background: var(--navy); }
+  @keyframes dotBounce {
+    0%, 80%, 100% { transform: translateY(0); }
+    40%           { transform: translateY(-8px); }
+  }
+
+  /* ── Tagline ── */
+  .tagline {
+    margin-top: 26px;
+    font-size: clamp(0.72rem, 1.8vw, 0.92rem);
+    letter-spacing: 0.32em;
+    font-weight: 300;
+    color: var(--cyan2);
+    text-transform: uppercase;
+    animation: fadeIn 1.4s ease 1.2s both;
+  }
+
+  /* ── Countdown ── */
+  .countdown {
+    display: flex;
+    gap: clamp(14px, 3vw, 32px);
+    justify-content: center;
+    margin-top: 38px;
+    animation: fadeIn 1.4s ease 1.4s both;
+  }
+  .cd-unit {
+    text-align: center;
+    min-width: 64px;
+  }
+  .cd-num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(1.6rem, 5vw, 2.8rem);
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1;
+    background: rgba(255,255,255,0.65);
+    border: 1px solid rgba(0,191,223,0.25);
+    border-radius: 12px;
+    padding: 10px 14px 8px;
+    backdrop-filter: blur(6px);
+    min-width: 70px;
+    display: block;
+    box-shadow: 0 4px 20px rgba(11,30,107,0.08);
+    transition: transform 0.15s;
+  }
+  .cd-num:hover { transform: translateY(-3px); }
+  .cd-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--cyan2);
+    margin-top: 7px;
+    font-weight: 400;
+  }
+  .cd-sep {
+    font-size: 2rem;
+    color: var(--cyan);
+    font-weight: 200;
+    align-self: flex-start;
+    padding-top: 10px;
+    opacity: 0.6;
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:.6} 50%{opacity:0} }
+
+  /* ── Email form ── */
+  .notify-form {
+    display: flex;
+    gap: 0;
+    margin-top: 38px;
+    max-width: 400px;
+    width: 100%;
+    border-radius: 50px;
+    overflow: hidden;
+    box-shadow: 0 6px 28px rgba(11,30,107,0.13);
+    animation: fadeIn 1.4s ease 1.6s both;
+  }
+  .notify-form input {
+    flex: 1;
+    border: none;
+    padding: 14px 22px;
+    font-size: 0.82rem;
+    font-family: 'Montserrat', sans-serif;
+    background: rgba(255,255,255,0.88);
+    color: var(--navy);
+    outline: none;
+    letter-spacing: 0.03em;
+  }
+  .notify-form input::placeholder { color: #9ab0cc; }
+  .notify-form button {
+    background: linear-gradient(135deg, var(--cyan), var(--navy));
+    color: #fff;
+    border: none;
+    padding: 14px 24px;
+    font-size: 0.78rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: opacity 0.2s, transform 0.2s;
+    white-space: nowrap;
+  }
+  .notify-form button:hover { opacity: 0.88; transform: scale(1.02); }
+
+  .thanks-msg {
+    display: none;
+    margin-top: 38px;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    color: var(--navy);
+    background: rgba(255,255,255,0.7);
+    border: 1px solid rgba(0,191,223,0.3);
+    border-radius: 50px;
+    padding: 12px 28px;
+    backdrop-filter: blur(4px);
+  }
+
+  /* ── Footer ── */
+  .footer {
+    position: fixed;
+    bottom: 22px;
+    left: 0; right: 0;
+    text-align: center;
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    color: rgba(11,30,107,0.38);
+    text-transform: uppercase;
+    animation: fadeIn 2s ease 2s both;
+  }
+
+  /* ── Social icons ── */
+  .socials {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 32px;
+    animation: fadeIn 1.4s ease 1.8s both;
+  }
+  .socials a {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,191,223,0.35);
+    background: rgba(255,255,255,0.6);
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none;
+    color: var(--navy);
+    font-size: 14px;
+    transition: all 0.25s;
+    backdrop-filter: blur(4px);
+  }
+  .socials a:hover {
+    background: var(--cyan);
+    color: #fff;
+    border-color: var(--cyan);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0,191,223,0.35);
+  }
+
+  @media (max-width: 480px) {
+    .countdown { gap: 10px; }
+    .cd-num { min-width: 54px; padding: 8px 10px 6px; font-size: 1.5rem; }
+    .coming-soon { letter-spacing: 0.14em; }
+    .notify-form { flex-direction: column; border-radius: 16px; }
+    .notify-form input { border-radius: 16px 16px 0 0; }
+    .notify-form button { border-radius: 0 0 16px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating plane -->
+<div class="plane-wrap">
+  <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M10 50 L90 20 L75 50 L90 80 Z" fill="#0B1E6B"/>
+    <path d="M30 50 L75 50 L60 65 Z" fill="#00BFDF"/>
+    <path d="M10 50 L40 45 L40 55 Z" fill="#1A4FA8"/>
+  </svg>
+</div>
+
+<!-- Particles -->
+<div class="particles" id="particles"></div>
+
+<!-- Main content -->
+<div class="card">
+
+  <div class="logo-wrap">
+    <img src="logo.png" alt="Voyixa.net" id="logoImg">
+  </div>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-dot"></div>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="coming-soon">
+    Coming Soon
+    <span class="dots">
+      <span></span><span></span><span></span>
+    </span>
+  </div>
+
+  <p class="tagline">Discover the World Without Limits</p>
+
+  <div class="countdown">
+    <div class="cd-unit">
+      <span class="cd-num" id="cd-days">00</span>
+      <div class="cd-label">Days</div>
+    </div>
+    <div class="cd-sep">:</div>
+    <div class="cd-unit">
+      <span class="cd-num" id="cd-hours">00</span>
+      <div class="cd-label">Hours</div>
+    </div>
+    <div class="cd-sep">:</div>
+    <div class="cd-unit">
+      <span class="cd-num" id="cd-mins">00</span>
+      <div class="cd-label">Minutes</div>
+    </div>
+    <div class="cd-sep">:</div>
+    <div class="cd-unit">
+      <span class="cd-num" id="cd-secs">00</span>
+      <div class="cd-label">Seconds</div>
+    </div>
+  </div>
+
+  <form class="notify-form" id="notifyForm" onsubmit="handleSubmit(event)">
+    <input type="email" placeholder="Enter your email to get notified" required>
+    <button type="submit">Notify Me</button>
+  </form>
+  <div class="thanks-msg" id="thanksMsg">
+    ✈ You're on the list! We'll notify you at launch.
+  </div>
+
+  <div class="socials">
+    <a href="#" title="Facebook">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+      </svg>
+    </a>
+    <a href="#" title="Instagram">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+      </svg>
+    </a>
+    <a href="#" title="Twitter / X">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+      </svg>
+    </a>
+    <a href="#" title="LinkedIn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/>
+        <circle cx="4" cy="4" r="2"/>
+      </svg>
+    </a>
+  </div>
+
+</div>
+
+<div class="footer">© 2026 Voyixa.net — All rights reserved</div>
+
+<script>
+  // ── Logo fallback to SVG text ──
+  const img = document.getElementById('logoImg');
+  img.onerror = function() {
+    const wrap = document.querySelector('.logo-wrap');
+    wrap.innerHTML = `
+      <div style="font-family:'Montserrat',sans-serif;font-size:clamp(2.4rem,8vw,5rem);
+        font-weight:700;letter-spacing:-.01em;color:#0B1E6B;
+        filter:drop-shadow(0 6px 24px rgba(11,30,107,.18));">
+        Voy<span style="color:#00BFDF">ixa</span><span style="font-size:.45em;
+        font-weight:300;color:#1A9FC0;vertical-align:super;letter-spacing:.05em;">.net</span>
+      </div>`;
+  };
+
+  // ── Countdown to launch date ──
+  const LAUNCH = new Date('2026-09-01T00:00:00');
+  function tick() {
+    const now  = new Date();
+    const diff = LAUNCH - now;
+    if (diff <= 0) {
+      ['days','hours','mins','secs'].forEach(u =>
+        document.getElementById('cd-'+u).textContent = '00');
+      return;
+    }
+    const d = Math.floor(diff / 864e5);
+    const h = Math.floor((diff % 864e5) / 36e5);
+    const m = Math.floor((diff % 36e5)  / 6e4);
+    const s = Math.floor((diff % 6e4)   / 1e3);
+    document.getElementById('cd-days').textContent  = String(d).padStart(2,'0');
+    document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
+    document.getElementById('cd-mins').textContent  = String(m).padStart(2,'0');
+    document.getElementById('cd-secs').textContent  = String(s).padStart(2,'0');
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  // ── Email form ──
+  function handleSubmit(e) {
+    e.preventDefault();
+    document.getElementById('notifyForm').style.display = 'none';
+    document.getElementById('thanksMsg').style.display  = 'block';
+  }
+
+  // ── Particles ──
+  const container = document.getElementById('particles');
+  const colors = ['#c8dff5','#a8ccee','#00BFDF44','#1A4FA822','#ffffff88'];
+  for (let i = 0; i < 22; i++) {
+    const p = document.createElement('div');
+    p.className = 'p';
+    const size = Math.random() * 10 + 4;
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      top:${Math.random()*100 + 100}%;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      --dur:${Math.random()*12+10}s;
+      --delay:-${Math.random()*14}s;
+      --op:${Math.random()*0.5+0.15};
+    `;
+    container.appendChild(p);
+  }
+</script>
+</body>
+</html>
